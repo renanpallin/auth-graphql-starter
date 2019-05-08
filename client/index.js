@@ -4,6 +4,7 @@ import ApolloClient, { createNetworkInterface } from 'apollo-client';
 import { ApolloProvider } from 'react-apollo';
 
 import App from './components/App';
+import LoginForm from './components/LoginForm';
 
 import { Router, hashHistory, Route, IndexRoute } from 'react-router';
 
@@ -11,7 +12,7 @@ import { Router, hashHistory, Route, IndexRoute } from 'react-router';
 /*
 Isso garante que cookies sejam enviados e a autenticação
 por cookies do passportjs funcione
-*/ 
+*/
 const networkInterface = createNetworkInterface({
 	uri: '/graphql',
 	opts: {
@@ -28,7 +29,9 @@ const Root = () => {
 	return (
 		<ApolloProvider client={client}>
 			<Router history={hashHistory}>
-				<Route path='/' component={App}></Route>
+				<Route path='/' component={App}>
+					<Route path='/login' component={LoginForm}></Route>
+				</Route>
 			</Router>
 		</ApolloProvider>
 	);
