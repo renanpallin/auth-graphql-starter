@@ -1,12 +1,37 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import ApolloClient, { createNetworkInterface } from 'apollo-client';
+import { ApolloProvider } from 'react-apollo';
+
+import App from './components/App';
+
+import { Router, hashHistory, Route, IndexRoute } from 'react-router';
+
+
+/*
+Isso garante que cookies sejam enviados e a autenticação
+por cookies do passportjs funcione
+*/ 
+const networkInterface = createNetworkInterface({
+	uri: '/graphql',
+	opts: {
+		credentials: 'same-origin'
+	}
+})
+
+const client = new ApolloClient({
+	dataIdFromObject: o => o.id,
+	networkInterface,
+});
 
 const Root = () => {
-  return (
-    <div>
-      Auth Starter
-    </div>
-  );
+	return (
+		<ApolloProvider client={client}>
+			<Router history={hashHistory}>
+				<Route path='/' component={App}></Route>
+			</Router>
+		</ApolloProvider>
+	);
 };
 
 ReactDOM.render(<Root />, document.querySelector('#root'));
