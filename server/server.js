@@ -14,6 +14,11 @@ const app = express();
 // Replace with your mongoLab URI
 const { MONGO_URI } = process.env;
 
+if (!MONGO_URI) {
+  console.log('Faltou a MONGO_URI');
+  process.exit();
+}
+
 // Mongoose's built in promise library is deprecated, replace it with ES2015 Promise
 mongoose.Promise = global.Promise;
 
